@@ -74,8 +74,10 @@ RUN set -x \
 			| sort -u \
 	)" \
 	&& apk add --virtual .haproxy-rundeps $runDeps \
-	&& apk del .build-deps
+	&& apk del .build-deps \
+	&& apk add --no-cache inotify-tools
 
 COPY docker-entrypoint.sh /
+COPY haproxy-config-watch.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]

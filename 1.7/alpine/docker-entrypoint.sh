@@ -12,4 +12,7 @@ if [ "$1" = 'haproxy' ]; then
 	set -- "$(which haproxy-systemd-wrapper)" -p /run/haproxy.pid "$@"
 fi
 
+# detach process to watch and reload config
+/haproxy-config-watch.sh &
+
 exec "$@"
